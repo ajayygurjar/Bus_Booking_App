@@ -1,20 +1,22 @@
 const express=require('express');
 const app=express();
+app.use(express.json());
+const { sequelize } = require("./models");
 
-const db = require("./utils/db-connection");
 
 const userRoutes = require("./routes/userRoutes");
 const busRoutes = require("./routes/busRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
 
-app.use(express.json());
 app.get('/',(req,res)=>{
     res.send('Hello World');
 })
 
 app.use("/users", userRoutes);
 app.use("/buses", busRoutes);
+app.use("/bookings", bookingRoutes);
 
-db.sync().then(() => {
+sequelize.sync().then(() => {
 app.listen(3000,()=>{
     console.log(`Server is running`)
 });
